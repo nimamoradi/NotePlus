@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "435623659020",
+    "firebase_url": "https://noteplus-a6051.firebaseio.com",
+    "project_id": "noteplus-a6051",
+    "storage_bucket": "noteplus-a6051.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:435623659020:android:ff00c27a81581285",
+        "android_client_info": {
+          "package_name": "com.nimamoradi.NotePlus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "435623659020-j72avn5ov39a5jroe7mccs72bnf4e6oi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNGwy9O43n-tksqjtcPekxsp0Gq77O3Y4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:435623659020:android:507bd3ce53ba78db",
+        "android_client_info": {
+          "package_name": "com.nimamoradi.NotePlusteam"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "435623659020-j72avn5ov39a5jroe7mccs72bnf4e6oi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNGwy9O43n-tksqjtcPekxsp0Gq77O3Y4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
