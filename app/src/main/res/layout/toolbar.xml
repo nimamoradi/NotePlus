@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:orientation="horizontal">
+
+    <Button
+        android:id="@+id/category"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/ic_catogoray"
+        android:maxLines="1"
+        android:onClick="category"
+        android:text="@string/category" />
+
+    <Button
+        android:id="@+id/task"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/ic_notifications"
+        android:maxLines="1"
+        android:onClick="task"
+        android:text="@string/reminder" />
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/ic_send_black_24dp"
+        android:maxLines="1"
+        android:text="@string/share"
+
+        />
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/ic_email_black_24dp"
+        android:maxLines="1"
+        android:text="@string/sendemail"
+
+        />
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/ic_brightness_4_black_24dp"
+        android:maxLines="1"
+        android:text="@string/mode"
+
+        />
+</LinearLayout>
