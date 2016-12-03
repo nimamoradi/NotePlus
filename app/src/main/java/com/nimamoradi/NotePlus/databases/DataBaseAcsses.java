@@ -11,15 +11,15 @@ import android.provider.BaseColumns;
 public class DataBaseAcsses {
 
 
+        private static String query = "INSERT INTO " + DataBaseHelper.TABLE_NAME
+                + "(" + BaseColumns._ID + ", " + DataBaseHelper.NAME_COLUMN1
+                +", " + DataBaseHelper.NAME_COLUMN2
+                + ") VALUES (?, ?,?);";
     /**
      * Created by UserPc on 11/7/2016.
      */
 
         private SQLiteDatabase db;
-        private static String query = "INSERT INTO " + DataBaseHelper.TABLE_NAME
-                + "(" + BaseColumns._ID + ", " + DataBaseHelper.NAME_COLUMN1
-                +", " + DataBaseHelper.NAME_COLUMN2
-                + ") VALUES (?, ?,?);";
         private SQLiteStatement insertStmt;
 
         public DataBaseAcsses(SQLiteDatabase db) {
@@ -33,7 +33,7 @@ public class DataBaseAcsses {
             insertStmt.bindString(2, object.getTitle());
             insertStmt.bindString(3, object.getText());
 
-            db.insert();
+        //    db.insert();
             return insertStmt.executeInsert();
         }
 

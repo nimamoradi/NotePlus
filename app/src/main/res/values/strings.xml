@@ -36,5 +36,14 @@
     <string name="pass">DukeNima</string>
     <string name="emailAdd">noteplusteam@gmail.com</string>
     <string name="PasswordRestReqest">use the this code: ? to change your password if you not send this reqest ignore it</string>
+    <string name="title_activity_writing">Writing</string>
+    <string name="enter_title">enter title</string>
+    <string name="your_notes">enter your notes here</string>
+    <string name="category">category</string>
+    <string name="reminder">reminder</string>
+    <string name="share">share</string>
+    <string name="mode">mode</string>
+    <string name="sendemail">email</string>
+
 
 </resources>
