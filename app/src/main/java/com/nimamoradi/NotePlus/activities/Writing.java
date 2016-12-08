@@ -49,12 +49,5 @@ public class Writing extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode,
-                                    int resultCode, Intent data) {
-if (requestCode==REQ_CODE)
-    Toast.makeText(this, "oh i did it", Toast.LENGTH_SHORT).show();
 
-
-    }
 }

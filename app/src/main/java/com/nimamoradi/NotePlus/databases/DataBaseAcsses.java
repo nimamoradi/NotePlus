@@ -33,7 +33,7 @@ public class DataBaseAcsses {
             insertStmt.bindString(2, object.getTitle());
             insertStmt.bindString(3, object.getText());
 
-        //    db.insert();
+          //  db.insert();
             return insertStmt.executeInsert();
         }
 

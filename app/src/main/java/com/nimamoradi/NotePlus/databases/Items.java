@@ -22,7 +22,7 @@ public class Items {
         Title = title;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
