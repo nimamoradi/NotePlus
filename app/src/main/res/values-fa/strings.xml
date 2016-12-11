@@ -42,7 +42,9 @@
     <string name="category">category</string>
     <string name="reminder">reminder</string>
     <string name="share">share</string>
-    <string name="mode">mode</string>
-    <string name="sendemail">email</string>
+    <string name="Attach">Attach</string>
+    <string name="remove">remove mail</string>
+    <string name="share_using">share with</string>
+    <string name="noImage">no photo is chosen</string>
 
 </resources>

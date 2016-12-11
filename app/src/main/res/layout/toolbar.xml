@@ -7,16 +7,19 @@
 
     <Button
         android:id="@+id/category"
+        style="@style/AppTheme.textsize"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:drawableTop="@drawable/ic_catogoray"
         android:maxLines="1"
         android:onClick="category"
+
         android:text="@string/category" />
 
     <Button
         android:id="@+id/task"
+        style="@style/AppTheme.textsize"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -26,32 +29,36 @@
         android:text="@string/reminder" />
 
     <Button
+        style="@style/AppTheme.textsize"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:drawableTop="@drawable/ic_send_black_24dp"
         android:maxLines="1"
+        android:onClick="share"
         android:text="@string/share"
-
         />
 
     <Button
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:drawableTop="@drawable/ic_email_black_24dp"
+        android:drawableTop="@drawable/ic_delete_black_24dp"
         android:maxLines="1"
-        android:text="@string/sendemail"
+        android:onClick="remove"
 
+        android:text="@string/remove"
         />
 
     <Button
+        style="@style/AppTheme.textsize"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:drawableTop="@drawable/ic_brightness_4_black_24dp"
+        android:drawableTop="@drawable/ic_attachment_black_24dp"
         android:maxLines="1"
-        android:text="@string/mode"
-
+        android:onClick="attach"
+        android:text="@string/Attach"
         />
+
 </LinearLayout>
