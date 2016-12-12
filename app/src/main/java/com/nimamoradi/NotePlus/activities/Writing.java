@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.provider.AlarmClock;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
@@ -47,46 +46,37 @@ public class Writing extends AppCompatActivity {
         String text = getIntent().getStringExtra(Intent.EXTRA_TEXT);
         TextView textView1 = (TextView) findViewById(R.id.title);
         TextView textView = (TextView) findViewById(R.id.notes);
-        try {
+
             Bundle extras = getIntent().getExtras();
             item = (Items) extras.getSerializable("items");
             if (itemdao.contain(item.getId())) {
                 item = itemdao.get(item.getId());
+                Log.e(this + "", "contain ");
 
-//                Log.e(this + "", item.getText());
-//                Log.e(this + "", item.getId()+"");
-//                Log.e(this + "", item.getCount()+"");
-//                Log.e(this + "", item.getUrl1()+"");
-//                Log.e(this + "", item.getTitle());
-                try {
                     if (item.getUrl1() != null)
                         setPic(item.getUrl1());
                     if (item.getUrl2() != null)
                         setPic(item.getUrl2());
                     if (item.getUrl3() != null)
                         setPic(item.getUrl3());
-                } catch (Exception e) {
-                }
-            } else
+
+            } else {
+                Log.e(this + "", "don't contain so add it ");
                 itemdao.add(item);
+            }
 
             textView.setText(item.getText());
             textView1.setText(item.getTitle());
-        } catch (Exception e) {
-            e.printStackTrace();
-            item = new Items(1, SystemClock.currentThreadTimeMillis() + "", 1);
-            itemdao.add(item);
-        }
+
+        // item = new Items(1, SystemClock.currentThreadTimeMillis() + "", 1);
+//            itemdao.add(item);
 
 
-        if (item != null) {
-            itemdao.add(item);
-            textView.setText(item.getText());
-            textView1.setText(item.getTitle());
-        }
+//            textView.setText(item.getText());
+//            textView1.setText(item.getTitle());
 
-        if (text != null)
-            textView.setText(text);
+
+
 
     }
 

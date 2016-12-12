@@ -24,10 +24,10 @@ public class ItemDAO implements DAO<Items> {
 
             "," + ItemTable.NAME_COLUMN6
             + "," + ItemTable.NAME_COLUMN7
-            + ") VALUES (?, ?, ?, ?,?,?,?);";
+            + ") VALUES (?, ?, ?,?, ?, ?, ?);";
     private static String query2 = "INSERT INTO " + ItemTable.TABLE_NAME
             + "(" + ItemTable.NAME_COLUMN6 + "," + ItemTable.NAME_COLUMN7
-            + ") VALUES (?, ?);";
+            + ") VALUES (?, ?)";
     private SQLiteDatabase db;
     private SQLiteStatement insertStmt;
     private SQLiteStatement insertStmt2;
@@ -45,6 +45,7 @@ public class ItemDAO implements DAO<Items> {
         insertStmt2.bindString(1, object.getData());
         insertStmt2.bindLong(2, object.getCount());
         // db.insert()
+        Log.e(this + "", "adding it");
         return insertStmt2.executeInsert();
     }
 
@@ -74,6 +75,7 @@ public class ItemDAO implements DAO<Items> {
         if (!cursor.isClosed()) {
             cursor.close();
         }
+
         return item;
     }
 
@@ -92,7 +94,7 @@ public class ItemDAO implements DAO<Items> {
         if (!cursor.isClosed()) {
             cursor.close();
         }
-
+        Log.e(this + "", "getting item via id");
         return item;
     }
 
@@ -113,12 +115,13 @@ public class ItemDAO implements DAO<Items> {
         String text = cursor.getString(2);
 
         try {
+            date = cursor.getString(7);
+            count = cursor.getInt(8);
             uri1 = cursor.getString(3);
             uri2 = cursor.getString(4);
             uri3 = cursor.getString(5);
             uri3 = cursor.getString(6);
-            date = cursor.getString(7);
-            count = cursor.getInt(8);
+
         } catch (Exception e) {
             Log.e(this + "", "null uri");
 
@@ -146,7 +149,7 @@ public class ItemDAO implements DAO<Items> {
     @Override
     public void update(Items object) {
         ContentValues cv = new ContentValues();
-        cv.put(BaseColumns._ID, object.getId());
+
         cv.put(ItemTable.NAME_COLUMN, object.getTitle()); //These Fields should be your String values of actual column names
         cv.put(ItemTable.NAME_COLUMN2, object.getText());
         cv.put(ItemTable.NAME_COLUMN3, object.getUrl1());
