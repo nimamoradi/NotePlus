@@ -32,14 +32,14 @@ public class ItemDAO implements DAO<Items> {
     public ItemDAO(SQLiteDatabase db) {
 
         this.db = db;
-        insertStmt = db.compileStatement(ItemDAO.query);
-        insertStmt2 = db.compileStatement(ItemDAO.query2);
+        insertStmt = db.compileStatement(ItemDAO.query2);
+        insertStmt2 = db.compileStatement(ItemDAO.query);
     }
 
     public long add(Items object) {
         insertStmt.clearBindings();
-        insertStmt.bindString(3, object.getTitle());
-        insertStmt.bindString(2, object.getText());
+//        insertStmt.bindString(0, object.getTitle());
+        insertStmt.bindString(1, object.getText());
         // db.insert()
         return insertStmt.executeInsert();
     }
@@ -83,7 +83,7 @@ public class ItemDAO implements DAO<Items> {
         if (!cursor.isClosed()) {
             cursor.close();
         }
-        Log.e(this + "", item.getTitle());
+//        Log.e(this + "", item.getTitle());
         return item;
     }
 
@@ -95,22 +95,22 @@ public class ItemDAO implements DAO<Items> {
 
     private Items buildItemFromCursor(Cursor cursor) {
         long id = cursor.getLong(0);
-        String uri1 = null;
-        String uri2 = null;
-        String uri3 = null;
+//        String uri1 = null;
+//        String uri2 = null;
+//        String uri3 = null;
         String title = cursor.getString(1);
         String text = cursor.getString(2);
 
         try {
-            uri1 = cursor.getString(3);
-            uri2 = cursor.getString(4);
-            uri3 = cursor.getString(5);
+//            uri1 = cursor.getString(3);
+//            uri2 = cursor.getString(4);
+//            uri3 = cursor.getString(5);
         } catch (Exception e) {
             Log.e(this + "", "null uri");
 
-            uri1 = "";
-            uri2 = "";
-            uri3 = "";
+//            uri1 = "";
+//            uri2 = "";
+//            uri3 = "";
 
         }
         Log.e(this + "", title);
@@ -127,12 +127,12 @@ public class ItemDAO implements DAO<Items> {
     @Override
     public void update(Items object) {
         ContentValues cv = new ContentValues();
-        cv.put(BaseColumns._ID, object.getId());
+        // cv.put(BaseColumns._ID, object.getId());
         cv.put(ItemTable.NAME_COLUMN, object.getTitle()); //These Fields should be your String values of actual column names
         cv.put(ItemTable.NAME_COLUMN2, object.getText());
-        cv.put(ItemTable.NAME_COLUMN3, object.getUrl1());
-        cv.put(ItemTable.NAME_COLUMN4, object.getUrl2());
-        cv.put(ItemTable.NAME_COLUMN5, object.getUrl3());
+//        cv.put(ItemTable.NAME_COLUMN3, object.getUrl1());
+//        cv.put(ItemTable.NAME_COLUMN4, object.getUrl2());
+//        cv.put(ItemTable.NAME_COLUMN5, object.getUrl3());
         db.update(ItemTable.TABLE_NAME, cv, BaseColumns._ID + " = ?", new String[]{object.getId() + ""});
     }
 

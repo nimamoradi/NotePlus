@@ -15,7 +15,7 @@ public class test extends AppCompatActivity {
         setContentView(R.layout.activity_test);
         newnote(1);
         Intent i = new Intent(this, Writing.class);
-        i.putExtra("items", newnote(45));
+        i.putExtra("items", newnote(35));
         startActivity(i);
         finish();
 
