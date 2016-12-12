@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,7 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nimamoradi.NotePlus.R;
-import com.nimamoradi.NotePlus.databases.DBOpenHelper;
 import com.nimamoradi.NotePlus.databases.ItemDAO;
 import com.nimamoradi.NotePlus.model.Items;
 
@@ -38,44 +36,30 @@ public class Writing extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_writing);
-        DBOpenHelper dbhelper = new DBOpenHelper(this);
-        SQLiteDatabase db = dbhelper.getWritableDatabase();
 
 
-        itemdao = new ItemDAO(db);
+        itemdao = new ItemDAO(this);
         String text = getIntent().getStringExtra(Intent.EXTRA_TEXT);
         TextView textView1 = (TextView) findViewById(R.id.title);
         TextView textView = (TextView) findViewById(R.id.notes);
 
             Bundle extras = getIntent().getExtras();
             item = (Items) extras.getSerializable("items");
-            if (itemdao.contain(item.getId())) {
-                item = itemdao.get(item.getId());
-
-                Log.e(this + "", item.getText());
-            } else {
-                item.setTitle("a");
-                item.setText("a");
-
-                itemdao.add(item);
-            }
+        try {
             textView.setText(item.getText());
             textView1.setText(item.getTitle());
-
-
-//
-//            item = new Items(1, "", "");
-//            itemdao.add(item);
-
-
-        if (item == null) {
-            itemdao.add(item);
-            textView.setText("A");
-            textView1.setText("A");
+        } catch (NullPointerException e) {
         }
 
-        if (text != null)
-            textView.setText(text);
+
+//        if (item == null) {
+//            itemdao.add(item);
+//            textView.setText("A");
+//            textView1.setText("A");
+//        }
+
+//        if (text != null)
+//            textView.setText(text);
 
     }
 

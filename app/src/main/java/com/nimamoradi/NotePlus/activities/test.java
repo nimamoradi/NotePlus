@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.nimamoradi.NotePlus.R;
+import com.nimamoradi.NotePlus.databases.ItemDAO;
 import com.nimamoradi.NotePlus.model.Items;
 
 public class test extends AppCompatActivity {
@@ -13,20 +14,25 @@ public class test extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
-        newnote(1);
+        ItemDAO itemdao = new ItemDAO(this);
+
         Intent i = new Intent(this, Writing.class);
-        i.putExtra("items", newnote(35));
+//        Items item=new Items(1
+//                ,"today");
+        //this way you get item
+        Items item = itemdao.getAll().get(0);
+
+
+//            item.setTitle("high");
+//            item.setText("hello");
+//
+//            itemdao.add(item);
+
+        i.putExtra("items", item);
         startActivity(i);
         finish();
 
     }
 
-    public Items newnote(long id) {
 
-
-        Items item = new Items(id, "today");
-
-        return item;
-
-    }
 }

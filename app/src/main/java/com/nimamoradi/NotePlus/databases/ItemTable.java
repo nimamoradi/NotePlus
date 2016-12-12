@@ -16,7 +16,7 @@ public class ItemTable {
 
     public static void onCreate(final SQLiteDatabase db) {
         String query = "CREATE TABLE " + ItemTable.TABLE_NAME
-                + "(" + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + "(" + BaseColumns._ID + " INTEGER PRIMARY KEY, "
                 + ItemTable.NAME_COLUMN + " VARCHAR(200)," +
                 ItemTable.NAME_COLUMN2 + " VARCHAR(500)," +
                 ItemTable.NAME_COLUMN3 + " TEXT," +
@@ -24,6 +24,7 @@ public class ItemTable {
                 ItemTable.NAME_COLUMN5 + " TEXT" +
                 ");";
         db.execSQL(query);
+
 
     }
 

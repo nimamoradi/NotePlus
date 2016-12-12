@@ -8,11 +8,10 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Created by UserPc on 11/7/2016.
  */
 public class DBOpenHelper extends SQLiteOpenHelper {
-    private final static String DB_NAME = "my_db";
-    private final static int DB_VERSION = 1;
+    protected final static String DB_NAME = "pages";
+    protected final static int DB_VERSION = 1;
 
     public DBOpenHelper(Context context) {
-
         super(context, DBOpenHelper.DB_NAME,
                 null, DBOpenHelper.DB_VERSION);
     }

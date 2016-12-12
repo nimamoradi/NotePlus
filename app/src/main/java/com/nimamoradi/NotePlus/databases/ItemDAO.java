@@ -1,6 +1,7 @@
 package com.nimamoradi.NotePlus.databases;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 /**
  * Created by UserPc on 11/7/2016.
  */
-public class ItemDAO implements DAO<Items> {
+public class ItemDAO extends DBOpenHelper implements DAO<Items> {
     private static String query = "INSERT INTO " + ItemTable.TABLE_NAME
             + "(" + ItemTable.NAME_COLUMN + "," + ItemTable.NAME_COLUMN2 + ","
             + ItemTable.NAME_COLUMN3 + "," + ItemTable.NAME_COLUMN4
@@ -25,23 +26,33 @@ public class ItemDAO implements DAO<Items> {
             + "(" + ItemTable.NAME_COLUMN + "," + ItemTable.NAME_COLUMN2
 
             + ") VALUES (?, ?);";
-    private SQLiteDatabase db;
+
     private SQLiteStatement insertStmt;
     private SQLiteStatement insertStmt2;
 
-    public ItemDAO(SQLiteDatabase db) {
+    public ItemDAO(Context context) {
+        super(context);
 
-        this.db = db;
-        insertStmt = db.compileStatement(ItemDAO.query2);
-        insertStmt2 = db.compileStatement(ItemDAO.query);
+
+        // insertStmt2 = db.compileStatement(ItemDAO.query);
     }
 
-    public long add(Items object) {
-        insertStmt.clearBindings();
-//        insertStmt.bindString(0, object.getTitle());
-        insertStmt.bindString(1, object.getText());
+    public void add(Items items) {
+        SQLiteDatabase db = this.getWritableDatabase();
         // db.insert()
-        return insertStmt.executeInsert();
+
+        ContentValues values = new ContentValues();
+        values.put(ItemTable.NAME_COLUMN, items.getTitle());
+        values.put(ItemTable.NAME_COLUMN2, items.getText());
+
+        // insert pages
+
+        db.insert(ItemTable.TABLE_NAME, null, values);
+        // close database transaction
+
+        db.close();
+
+
     }
 
     public long adduri(Items object) {
@@ -54,37 +65,58 @@ public class ItemDAO implements DAO<Items> {
         return insertStmt2.executeInsert();
     }
 
-    public Items get(String name) {
-        Items item = null;
-        Cursor cursor = db.query(ItemTable.TABLE_NAME,
-                new String[]{BaseColumns._ID, ItemTable.NAME_COLUMN, ItemTable.NAME_COLUMN2},
-                ItemTable.NAME_COLUMN + " =?",
-                new String[]{name}, null, null, null);
-        if (cursor.moveToFirst()) {
 
-            item = buildItemFromCursor(cursor);
-        }
-        if (!cursor.isClosed()) {
-            cursor.close();
-        }
-        return item;
-    }
 
     public Items get(long id) {
-        Items item = null;
-        Cursor cursor = db.query(ItemTable.TABLE_NAME,
-                new String[]{BaseColumns._ID, ItemTable.NAME_COLUMN, ItemTable.NAME_COLUMN2},
-                BaseColumns._ID + " = ?",
-                new String[]{id + ""}, null, null, null);
+        SQLiteDatabase db = this.getReadableDatabase();
+        // get notes query
+        Log.e("database", db.getAttachedDbs().toString());
+        Cursor cursor = db.query(ItemTable.TABLE_NAME, // a. table
+
+                null, BaseColumns._ID + " = ?", new String[]{String.valueOf(id)}, null, null, null, null);
+
+        // if results !=null, parse the first one
         if (cursor.moveToFirst()) {
 
-            item = buildItemFromCursor(cursor);
+
+            Items items = buildItemFromCursor(cursor);
+
+
+            return items;
         }
-        if (!cursor.isClosed()) {
-            cursor.close();
+        return null;
+    }
+
+    public ArrayList<Items> getAll() {
+
+        ArrayList<Items> notes = new ArrayList<Items>();
+
+        // select book query
+
+        String query = "SELECT  * FROM " + ItemTable.TABLE_NAME;
+
+        // get reference of the BookDB database
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        // parse all results
+
+        Items items = null;
+
+        if (cursor.moveToFirst()) {
+
+            do {
+                items = buildItemFromCursor(cursor);
+
+                // Add book to books
+
+                notes.add(items);
+
+            } while (cursor.moveToNext());
         }
-//        Log.e(this + "", item.getTitle());
-        return item;
+        return notes;
     }
 
     public boolean contain(long id) {
@@ -94,10 +126,11 @@ public class ItemDAO implements DAO<Items> {
     }
 
     private Items buildItemFromCursor(Cursor cursor) {
-        long id = cursor.getLong(0);
+
 //        String uri1 = null;
 //        String uri2 = null;
 //        String uri3 = null;
+        long id = cursor.getLong(0);
         String title = cursor.getString(1);
         String text = cursor.getString(2);
 
@@ -117,26 +150,34 @@ public class ItemDAO implements DAO<Items> {
         return new Items(id, title, text);
     }
 
-    public boolean delete(Items object) {
-        int rows = db.delete(ItemTable.TABLE_NAME,
-                BaseColumns._ID + " = ?",
-                new String[]{Long.toString(object.getId())});
-        return rows == 1;
+    public void delete(Items object) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // delete book
+
+        db.delete(ItemTable.TABLE_NAME, BaseColumns._ID + " = ?", new String[]{String.valueOf(object.getId())});
+
+        db.close();
+
     }
 
-    @Override
+
     public void update(Items object) {
-        ContentValues cv = new ContentValues();
-        // cv.put(BaseColumns._ID, object.getId());
-        cv.put(ItemTable.NAME_COLUMN, object.getTitle()); //These Fields should be your String values of actual column names
-        cv.put(ItemTable.NAME_COLUMN2, object.getText());
-//        cv.put(ItemTable.NAME_COLUMN3, object.getUrl1());
-//        cv.put(ItemTable.NAME_COLUMN4, object.getUrl2());
-//        cv.put(ItemTable.NAME_COLUMN5, object.getUrl3());
-        db.update(ItemTable.TABLE_NAME, cv, BaseColumns._ID + " = ?", new String[]{object.getId() + ""});
+        // get reference of the notesDB database
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // make values to be inserted
+        ContentValues values = new ContentValues();
+        values.put(ItemTable.NAME_COLUMN, object.getTitle()); // get title
+        values.put(ItemTable.NAME_COLUMN2, object.getText()); // get text
+        db.update(ItemTable.TABLE_NAME, values, BaseColumns._ID + " = ?", new String[]{String.valueOf(object.getId())});
+        db.close();
+
     }
 
     public ArrayList<Items> serach(String title, @Nullable String text) {
+        SQLiteDatabase db = this.getWritableDatabase();
         ArrayList<Items> item = new ArrayList<Items>();
         Cursor cursor = db.query(ItemTable.TABLE_NAME,
                 new String[]{BaseColumns._ID, ItemTable.NAME_COLUMN, ItemTable.NAME_COLUMN2,
