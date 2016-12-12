@@ -19,11 +19,14 @@ import java.util.ArrayList;
 public class ItemDAO implements DAO<Items> {
     private static String query = "INSERT INTO " + ItemTable.TABLE_NAME
             + "(" + ItemTable.NAME_COLUMN + "," + ItemTable.NAME_COLUMN2 + ","
-            + ItemTable.NAME_COLUMN3 + "," + ItemTable.NAME_COLUMN4
-            + ") VALUES (?, ?, ?, ?);";
-    private static String query2 = "INSERT INTO " + ItemTable.TABLE_NAME
-            + "(" + ItemTable.NAME_COLUMN + "," + ItemTable.NAME_COLUMN2
+            + ItemTable.NAME_COLUMN3 + "," + ItemTable.NAME_COLUMN4 +
+            "," + ItemTable.NAME_COLUMN5 +
 
+            "," + ItemTable.NAME_COLUMN6
+            + "," + ItemTable.NAME_COLUMN7
+            + ") VALUES (?, ?, ?, ?,?,?,?);";
+    private static String query2 = "INSERT INTO " + ItemTable.TABLE_NAME
+            + "(" + ItemTable.NAME_COLUMN6 + "," + ItemTable.NAME_COLUMN7
             + ") VALUES (?, ?);";
     private SQLiteDatabase db;
     private SQLiteStatement insertStmt;
@@ -37,21 +40,25 @@ public class ItemDAO implements DAO<Items> {
     }
 
     public long add(Items object) {
-        insertStmt.clearBindings();
-        insertStmt.bindString(3, object.getTitle());
-        insertStmt.bindString(2, object.getText());
+        insertStmt2.clearBindings();
+
+        insertStmt2.bindString(1, object.getData());
+        insertStmt2.bindLong(2, object.getCount());
         // db.insert()
-        return insertStmt.executeInsert();
+        return insertStmt2.executeInsert();
     }
 
     public long adduri(Items object) {
-        insertStmt2.clearBindings();
-        insertStmt2.bindString(3, object.getTitle());
-        insertStmt2.bindString(2, object.getText());
-        insertStmt2.bindString(4, object.getUrl1());
-        insertStmt2.bindString(5, object.getUrl2());
+        insertStmt.clearBindings();
+        insertStmt.bindString(2, object.getTitle());
+        insertStmt.bindString(3, object.getText());
+        insertStmt.bindString(4, object.getUrl1());
+        insertStmt.bindString(5, object.getUrl2());
+        insertStmt.bindString(6, object.getUrl3());
+        insertStmt.bindString(7, object.getData());
+        insertStmt.bindLong(8, object.getCount());
         // db.insert()
-        return insertStmt2.executeInsert();
+        return insertStmt.executeInsert();
     }
 
     public Items get(String name) {
@@ -73,7 +80,9 @@ public class ItemDAO implements DAO<Items> {
     public Items get(long id) {
         Items item = null;
         Cursor cursor = db.query(ItemTable.TABLE_NAME,
-                new String[]{BaseColumns._ID, ItemTable.NAME_COLUMN, ItemTable.NAME_COLUMN2},
+                new String[]{BaseColumns._ID, ItemTable.NAME_COLUMN,
+                        ItemTable.NAME_COLUMN2, ItemTable.NAME_COLUMN3,
+                        ItemTable.NAME_COLUMN4, ItemTable.NAME_COLUMN5, ItemTable.NAME_COLUMN6, ItemTable.NAME_COLUMN7},
                 BaseColumns._ID + " = ?",
                 new String[]{id + ""}, null, null, null);
         if (cursor.moveToFirst()) {
@@ -83,7 +92,7 @@ public class ItemDAO implements DAO<Items> {
         if (!cursor.isClosed()) {
             cursor.close();
         }
-        Log.e(this + "", item.getTitle());
+
         return item;
     }
 
@@ -98,6 +107,8 @@ public class ItemDAO implements DAO<Items> {
         String uri1 = null;
         String uri2 = null;
         String uri3 = null;
+        String date = null;
+        int count = 0;
         String title = cursor.getString(1);
         String text = cursor.getString(2);
 
@@ -105,16 +116,24 @@ public class ItemDAO implements DAO<Items> {
             uri1 = cursor.getString(3);
             uri2 = cursor.getString(4);
             uri3 = cursor.getString(5);
+            uri3 = cursor.getString(6);
+            date = cursor.getString(7);
+            count = cursor.getInt(8);
         } catch (Exception e) {
             Log.e(this + "", "null uri");
 
-            uri1 = "";
-            uri2 = "";
-            uri3 = "";
+            if (uri1 == null)
+                uri1 = "";
+
+            if (uri2 == null)
+                uri2 = "";
+
+            if (uri3 == null)
+                uri3 = "";
 
         }
         Log.e(this + "", title);
-        return new Items(id, title, text);
+        return new Items(id, title, text, uri1, uri2, uri3, count, date);
     }
 
     public boolean delete(Items object) {

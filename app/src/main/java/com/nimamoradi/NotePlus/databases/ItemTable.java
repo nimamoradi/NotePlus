@@ -13,7 +13,8 @@ public class ItemTable {
     public static final String NAME_COLUMN3 = "uri1";
     public static final String NAME_COLUMN4 = "uri2";
     public static final String NAME_COLUMN5 = "uri3";
-
+    public static final String NAME_COLUMN6 = "Date";
+    public static final String NAME_COLUMN7 = "count";
     public static void onCreate(final SQLiteDatabase db) {
         String query = "CREATE TABLE " + ItemTable.TABLE_NAME
                 + "(" + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -21,7 +22,9 @@ public class ItemTable {
                 ItemTable.NAME_COLUMN2 + " VARCHAR(500)," +
                 ItemTable.NAME_COLUMN3 + " TEXT," +
                 ItemTable.NAME_COLUMN4 + " TEXT," +
-                ItemTable.NAME_COLUMN5 + " TEXT" +
+                ItemTable.NAME_COLUMN5 + " TEXT," +
+                ItemTable.NAME_COLUMN6 + " TEXT," +
+                ItemTable.NAME_COLUMN7 + " INTEGER" +
                 ");";
         db.execSQL(query);
 

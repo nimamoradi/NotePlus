@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.provider.AlarmClock;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
@@ -52,16 +53,28 @@ public class Writing extends AppCompatActivity {
             if (itemdao.contain(item.getId())) {
                 item = itemdao.get(item.getId());
 
-                Log.e(this + "", item.getText());
+//                Log.e(this + "", item.getText());
+//                Log.e(this + "", item.getId()+"");
+//                Log.e(this + "", item.getCount()+"");
+//                Log.e(this + "", item.getUrl1()+"");
+//                Log.e(this + "", item.getTitle());
+                try {
+                    if (item.getUrl1() != null)
+                        setPic(item.getUrl1());
+                    if (item.getUrl2() != null)
+                        setPic(item.getUrl2());
+                    if (item.getUrl3() != null)
+                        setPic(item.getUrl3());
+                } catch (Exception e) {
+                }
             } else
                 itemdao.add(item);
 
             textView.setText(item.getText());
             textView1.setText(item.getTitle());
         } catch (Exception e) {
-
             e.printStackTrace();
-            item = new Items(1, "", "");
+            item = new Items(1, SystemClock.currentThreadTimeMillis() + "", 1);
             itemdao.add(item);
         }
 
@@ -143,6 +156,7 @@ public class Writing extends AppCompatActivity {
         if (requestCode == RESULT_LOAD_IMG && resultCode == RESULT_OK && data != null && data.getData() != null) {
 
             Uri uri = data.getData();
+            Log.e(this + " uri", item.getCount() + "");
             if (item == null)
                 item = new Items(((TextView) findViewById(R.id.notes)).getText().toString(),
                         ((TextView) findViewById(R.id.title)).getText().toString());
@@ -150,10 +164,11 @@ public class Writing extends AppCompatActivity {
             else if (item.getUrl2() == null) item.setUrl2(uri.toString());
             else if (item.getUrl3() == null) item.setUrl3(uri.toString());
             else {
+
                 Toast.makeText(this, "Image limit reached", Toast.LENGTH_SHORT).show();
                 return;
             }
-
+            Log.e(this + " uri", item.getUrl1() + "");
             try {
 
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);

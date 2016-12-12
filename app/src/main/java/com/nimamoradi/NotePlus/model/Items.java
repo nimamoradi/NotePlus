@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 public class Items implements Serializable {
 
-    int count = 0;
+
     private long id;
     private String Title;
     private String Text;
@@ -16,11 +16,22 @@ public class Items implements Serializable {
     private String Url2;
     private String Url3;
     private String Data;
+    private int count = 0;
 
     public Items(String title, String text, String url1, String url2, String url3, long id) {
         Title = title;
         Text = text;
         Url1 = url1;
+        Url2 = url2;
+        Url3 = url3;
+        this.id = id;
+    }
+
+    public Items(long id, String title, String text, String url1, String url2, String url3, int count) {
+        Title = title;
+        Text = text;
+        Url1 = url1;
+        this.count = count;
         Url2 = url2;
         Url3 = url3;
         this.id = id;
@@ -35,9 +46,20 @@ public class Items implements Serializable {
 
     }
 
+    public Items(long id, String title, String text, String uri1, String uri2, String uri3, int count, String date) {
+        this.id = id;
+    }
+
     public Items(long id, String date) {
         this.id = id;
+        Data = date;
 
+    }
+
+    public Items(long id, String date, int count) {
+        this.count = count;
+        this.id = id;
+        Data = date;
 
     }
 
@@ -45,11 +67,26 @@ public class Items implements Serializable {
         Title = title;
         Text = text;
     }
-
     public Items(long id, String title, String text) {
         this.id = id;
         Text = text;
         Title = title;
+    }
+
+    public String getData() {
+        return Data;
+    }
+
+    public void setData(String data) {
+        Data = data;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 
     public String getUrl3() {
