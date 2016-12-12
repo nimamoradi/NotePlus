@@ -24,7 +24,7 @@ public class test extends AppCompatActivity {
     public Items newnote(long id) {
 
 
-        Items item = new Items(id);
+        Items item = new Items(id, "today");
 
         return item;
 
