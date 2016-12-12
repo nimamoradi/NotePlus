@@ -32,12 +32,14 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:24.2.1'
-    testCompile 'junit:junit:4.12'
- //   compile group: 'io.cloudboost', name: 'JavaSDK', version: '1.0.7' the dam filters
-    compile 'com.backtory.android:backtorysdk:0.2.2' // put latest version
+    //   compile group: 'io.cloudboost', name: 'JavaSDK', version: '1.0.7' the dam filters
+    // put latest version
     compile files('libs/mail.jar')
     compile files('libs/EasyMail.jar')
     compile files('libs/activation.jar')
     compile files('libs/additionnal.jar')
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.backtory.android:backtorysdk:0.2.2'
+    compile 'com.android.support:design:24.2.1'
+    testCompile 'junit:junit:4.12'
 }
