@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.nimamoradi.NotePlus.R;
+import com.nimamoradi.NotePlus.model.Items;
 
 public class test extends AppCompatActivity {
 
@@ -12,9 +13,20 @@ public class test extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
-        startActivity(new Intent(this, Writing.class));
-
+        newnote(1);
+        Intent i = new Intent(this, Writing.class);
+        i.putExtra("items", newnote(45));
+        startActivity(i);
+        finish();
 
     }
 
+    public Items newnote(long id) {
+
+
+        Items item = new Items(id);
+
+        return item;
+
+    }
 }

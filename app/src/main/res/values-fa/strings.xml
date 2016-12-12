@@ -39,12 +39,13 @@
     <string name="internetInavilable">no internet</string>
     <string name="enter_title">enter title</string>
     <string name="your_notes">enter your notes here</string>
-    <string name="category">category</string>
+    <string name="add">add</string>
     <string name="reminder">reminder</string>
     <string name="share">share</string>
     <string name="Attach">Attach</string>
     <string name="remove">remove mail</string>
     <string name="share_using">share with</string>
     <string name="noImage">no photo is chosen</string>
+    <string name="save">save</string>
 
 </resources>

@@ -5,17 +5,6 @@
 
     android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/category"
-        style="@style/AppTheme.textsize"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:drawableTop="@drawable/ic_catogoray"
-        android:maxLines="1"
-        android:onClick="category"
-
-        android:text="@string/category" />
 
     <Button
         android:id="@+id/task"
@@ -38,6 +27,16 @@
         android:onClick="share"
         android:text="@string/share"
         />
+
+    <Button
+        style="@style/AppTheme.textsize"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/ic_sd_card_black_24dp"
+        android:maxLines="1"
+        android:onClick="save"
+        android:text="@string/save" />
 
     <Button
         android:layout_width="0dp"

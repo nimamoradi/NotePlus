@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,26 +22,59 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nimamoradi.NotePlus.R;
+import com.nimamoradi.NotePlus.databases.DBOpenHelper;
+import com.nimamoradi.NotePlus.databases.ItemDAO;
+import com.nimamoradi.NotePlus.model.Items;
 
 import java.io.IOException;
 
 public class Writing extends AppCompatActivity {
     private static final int RESULT_LOAD_IMG = 8080;
-    int REQ_CODE = 1;
+
+    Items item;
+    ItemDAO itemdao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_writing);
+        DBOpenHelper dbhelper = new DBOpenHelper(this);
+        SQLiteDatabase db = dbhelper.getWritableDatabase();
+
+
+        itemdao = new ItemDAO(db);
         String text = getIntent().getStringExtra(Intent.EXTRA_TEXT);
+        TextView textView1 = (TextView) findViewById(R.id.title);
         TextView textView = (TextView) findViewById(R.id.notes);
+        try {
+            Bundle extras = getIntent().getExtras();
+            item = (Items) extras.getSerializable("items");
+            if (itemdao.contain(item.getId())) {
+                item = itemdao.get(item.getId());
+
+                Log.e(this + "", item.getText());
+            } else
+                itemdao.add(item);
+
+            textView.setText(item.getText());
+            textView1.setText(item.getTitle());
+        } catch (Exception e) {
+
+            e.printStackTrace();
+            item = new Items(1, "", "");
+            itemdao.add(item);
+        }
+
+
+        if (item != null) {
+            itemdao.add(item);
+            textView.setText(item.getText());
+            textView1.setText(item.getTitle());
+        }
+
         if (text != null)
             textView.setText(text);
 
-    }
-
-    public void category(View view) {
-        //create new table for database
     }
 
     public void task(View view) {
@@ -62,7 +96,6 @@ public class Writing extends AppCompatActivity {
             Toast.makeText(this, "No alarm app installed in system", Toast.LENGTH_LONG).show();
         }
     }
-
 
     public void share(View view) {
 
@@ -110,8 +143,19 @@ public class Writing extends AppCompatActivity {
         if (requestCode == RESULT_LOAD_IMG && resultCode == RESULT_OK && data != null && data.getData() != null) {
 
             Uri uri = data.getData();
+            if (item == null)
+                item = new Items(((TextView) findViewById(R.id.notes)).getText().toString(),
+                        ((TextView) findViewById(R.id.title)).getText().toString());
+            if (item.getUrl1() == null) item.setUrl1(uri.toString());
+            else if (item.getUrl2() == null) item.setUrl2(uri.toString());
+            else if (item.getUrl3() == null) item.setUrl3(uri.toString());
+            else {
+                Toast.makeText(this, "Image limit reached", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
             try {
+
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                 // Log.d(TAG, String.valueOf(bitmap));
 
@@ -126,9 +170,56 @@ public class Writing extends AppCompatActivity {
         }
     }
 
+    private void setPic(String url) {
+        Uri uri = Uri.parse(url);
+        if (item == null)
+            item = new Items(((TextView) findViewById(R.id.notes)).getText().toString(),
+                    ((TextView) findViewById(R.id.title)).getText().toString());
+        if (item.getUrl1() == null) item.setUrl1(uri.toString());
+        else if (item.getUrl2() == null) item.setUrl2(uri.toString());
+        else if (item.getUrl3() == null) item.setUrl3(uri.toString());
+
+
+        try {
+
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+            // Log.d(TAG, String.valueOf(bitmap));
+
+            ImageView imageView = new ImageView(this);
+            imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            imageView.setImageBitmap(bitmap);
+            LinearLayout lin = (LinearLayout) findViewById(R.id.mainlayout);
+            lin.addView(imageView);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+
+    }
+
+    public void remove(View view) {
+        itemdao.delete(item);
+        item = null;
+        finish();
+
+    }
+
+    /**
+     * saves the contexts
+     */
+    public void save(View view) {
+
+
+        item.setText(((TextView) findViewById(R.id.notes)).getText().toString());
+        item.setTitle(((TextView) findViewById(R.id.title)).getText().toString());
+
+        itemdao.update(item);
+
+        Log.e(this + "", item.getText());
 
     }
 }

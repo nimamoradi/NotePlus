@@ -2,10 +2,6 @@ package com.nimamoradi.NotePlus;
 
 import android.app.Application;
 
-import com.backtory.androidsdk.Storage;
-import com.backtory.androidsdk.internal.Backtory;
-import com.backtory.androidsdk.internal.Config;
-
 /**
  * Created by nima on 11/24/2016.
  */
@@ -19,15 +15,7 @@ public class MainApplication extends Application {
     public void onCreate() {
         super.onCreate();
         // Initializing backtory
-        Backtory.init(this, Config.newBuilder().
-                // Setting shared preferences as default storage for backtory
-                        storage(new Storage.SharedPreferencesStorage(this)).
-                // Enabling User Services
-                        initAuth(backtory_auth_instance_id, backtory_auth_key).
-                //Enabling cloud function
-                        initCloudCode(cloud_function_key).
-                // Finilizing sdk
-                        build());
+
     }
 
 
