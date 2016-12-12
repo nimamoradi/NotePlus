@@ -1,6 +1,7 @@
 package com.nimamoradi.NotePlus.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by nima on 11/30/2016.
@@ -12,28 +13,7 @@ public class Items implements Serializable {
     private long id;
     private String Title;
     private String Text;
-    private String Url1;
-    private String Url2;
-    private String Url3;
-    private String Data;
-
-    public Items(String title, String text, String url1, String url2, String url3, long id) {
-        Title = title;
-        Text = text;
-        Url1 = url1;
-        Url2 = url2;
-        Url3 = url3;
-        this.id = id;
-    }
-
-    public Items(String title, String text, String url1, String url2, String url3) {
-        Title = title;
-        Text = text;
-        Url1 = url1;
-        Url2 = url2;
-        Url3 = url3;
-
-    }
+    private String warp;
 
     public Items(long id, String date) {
         this.id = id;
@@ -46,21 +26,56 @@ public class Items implements Serializable {
         Text = text;
     }
 
-    public Items(long id, String title, String text) {
+
+    public Items(long id, String title, String text, String warp) {
         this.id = id;
         Text = text;
         Title = title;
+        this.warp = warp;
     }
 
-    public String getUrl3() {
-
-        return Url3;
+    public static String makewarp(String time, String... uri) {
+        String warp = "";
+        warp += time;
+        for (int i = 0; i < uri.length; i++)
+            warp += '\10' + uri[i];
+        return warp;
     }
 
-    public void setUrl3(String url3) {
-        Url3 = url3;
+    public String getWarp() {
+        return warp;
     }
 
+    public void setWarp(String warp) {
+        this.warp = warp;
+    }
+
+    public void addURI(String Uri) {
+
+        warp += '\10' + Uri;
+    }
+
+    public ArrayList<String> getURI() {
+        ArrayList<String> getURI = new ArrayList<String>();
+        String[] a = warp.split("\10");
+        for (int i = 0; i < a.length; i++)
+            getURI.add(a[i]);
+        return getURI;
+
+    }
+
+    public String getURI(int count) {
+
+        String[] a = warp.split("\10");
+
+        return a[count + 1];
+
+    }
+
+    public String getTime() {
+        String time = (warp.split("\10"))[0];
+        return time;
+    }
 
     public String getTitle() {
         return Title;
@@ -84,22 +99,6 @@ public class Items implements Serializable {
 
     public void setText(String text) {
         Text = text;
-    }
-
-    public String getUrl1() {
-        return Url1;
-    }
-
-    public void setUrl1(String url1) {
-        Url1 = url1;
-    }
-
-    public String getUrl2() {
-        return Url2;
-    }
-
-    public void setUrl2(String url2) {
-        Url2 = url2;
     }
 
 

@@ -132,13 +132,7 @@ public class Writing extends AppCompatActivity {
             if (item == null)
                 item = new Items(((TextView) findViewById(R.id.notes)).getText().toString(),
                         ((TextView) findViewById(R.id.title)).getText().toString());
-            if (item.getUrl1() == null) item.setUrl1(uri.toString());
-            else if (item.getUrl2() == null) item.setUrl2(uri.toString());
-            else if (item.getUrl3() == null) item.setUrl3(uri.toString());
-            else {
-                Toast.makeText(this, "Image limit reached", Toast.LENGTH_SHORT).show();
-                return;
-            }
+
 
             try {
 
@@ -158,12 +152,9 @@ public class Writing extends AppCompatActivity {
 
     private void setPic(String url) {
         Uri uri = Uri.parse(url);
-        if (item == null)
-            item = new Items(((TextView) findViewById(R.id.notes)).getText().toString(),
-                    ((TextView) findViewById(R.id.title)).getText().toString());
-        if (item.getUrl1() == null) item.setUrl1(uri.toString());
-        else if (item.getUrl2() == null) item.setUrl2(uri.toString());
-        else if (item.getUrl3() == null) item.setUrl3(uri.toString());
+        item.addURI(url);
+
+
 
 
         try {
